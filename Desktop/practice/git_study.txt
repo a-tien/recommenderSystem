@@ -1,0 +1,229 @@
+以下の用語を理解する
+
+  - リポジトリ(儲存庫\Repository)
+    目的：設計や開発に関する情報を一時的に保存する場所、データを管理して、加えられた変更の履歴を保存できる
+    １．同じデータの過去の特定時点の版を取り寄せる
+    ２．最新の版をと以前の版の違い(差分)を求める 
+    ３．版を破棄して過去の版に差し戻せる
+
+ - リモートリポジトリ(Remote Repository)
+
+    ローカル環境ではなくネットワークで接続しているサーバなどにあるリポジトリのこと、複数人で情報を閲覧・共有できる。
+    ローカルリポジトリを公開したい場合はリモートリポジトリに同期し、アップロードします。
+    リモートリポジトリの管理方法が「集中管理方法」と呼ばれています。
+
+    リモートリポジトリの追加方法
+    $git remote add <shortname> <url>
+    url がこれでshortnameに保存できたので、
+    $git fetch <shortname>
+    を実行すれば、URLの内容を取得できる
+
+    リモートの情報を得る
+    $git remote show <remote-name>
+
+    リモートのリネーム
+    $git remote rename <oldname> <newname>
+    リモートの削除
+    $git remote rm <remote-name>
+
+  - ローカルリポジトリ(Local Repository)
+
+    自分のパソコン・マシンに存在するリポジトリのこと。
+    プロジェクトに必要なものをダウンロードしたデータやバージョンの保管する場所は端末一台分。
+
+  - ブランチ(Branch)
+
+    分岐してブランチはほかのブランチの影響を受けないので、
+    同じリポジトリ中で複数の変更が同時に進める。
+    その分岐したブランチの中でコードの修正や機能の更新をして、
+    最後に分岐したブランチはほかのブランチと合流(マージ)し、一つのブランチにまとめることかできる。
+
+  - リモートブランチ(Remote Branch)
+    リモートリポジトリ上のブランチの状態を指すものです。
+    同じリモートリポジトリを利用するすべての人に見えるブランチ
+
+  - ローカルブランチ(Local Branch)
+    ローカルリポジトリで管理されるブランチをローカルブランチと言います。
+    リポジトリを作成すると自動的に master ブランチが作成されます。
+
+  - デフォルトブランチ(Default Branch)
+    新しいプロジェクトを作成すると、
+    Gitリポジトリにデフォルトブランチを作成します。
+    ほかのブランチにない特別な設定オプションがあり、
+    削除できません。初期状態で強制プッシュから保護されます。
+
+  - ワークツリー(Worktree)
+    Gitの管理下に置かれたディレクトリのことをワークツリーと呼びます。
+
+  - インデックス / ステージ(Stage)
+    リポジトリとワークツリーの間にリポジトリにコミットする準備できるところがインデックスと呼びます。
+    コミットを実行したときに、インデックスの設定された状態を記録するようになる、
+    そのために、コミットでファイルの状態を記録するためには、インデックスにファイルを登録する必要があります。
+
+----------------------------------------------------
+
+以下の git command を理解する
+
+  - clone
+    $ git clone <url>   //Create a local copy of a remote repository
+    https://git-scm.com/docs/git-clone　
+    リモートリポジトリを複製するには、cloneの操作を行う。クローンを実行したら、リモートリポジトリの内容(変更履歴を含めて)を丸ごとダウンロードしてきて、別のマシンにローカルリポジトリとして作成できたら、自分の手元で作業をできます。
+    ＃PullとFetchの違い、一回目だけCloneを使います。もしリポジトリを更新する時にPullかFetchを使う
+
+  - branch
+    https://git-scm.com/docs/git-branch
+
+    "List branch"
+        $ git branch                                 //List branches (the asterisk denotes the current branch)
+        $ git branch -a                              //List all branches (local and remote)
+
+    "Create & switch branch"
+        $ git branch [branch name]                   //Create a new branch
+        $ git checkout -b [branch name]              //Create a new branch and switch to it
+        $ git checkout -b [branch name] origin/[branch name]
+                                                    //Clone a remote branch and switch to it
+
+    "Delete branch"
+        $ git branch -d [branch name]                //Delete a branch
+        $ git push origin --delete [branch name]     //Delete a remote branch
+
+   
+  - checkout
+    -> Switch branches or restore working tree files
+    https://git-scm.com/docs/git-checkout
+
+    ""
+        $ git checkout [branch name]                 //Switch to a branch
+        $ git checkout -                             //Switch to the branch last checked out
+        $ git checkout -- [file-name.txt]            //Discard changes to a file
+
+  - log
+    -> Show commit logs
+    $ git log                 //View changes
+    $ git log --summary       //View changes (detailed)
+    $ git log --oneline       //View changes (briefly)
+    $ git diff [source branch] [target branch]
+                             //Preview changes before merging
+  - statusgithub flow
+   -> Show the working tree status
+   https://git-scm.com/docs/git-status
+
+   $ git status  //Check status
+ 
+  - add
+    -> Add file contents to the index
+    $ git add [file-name.txt]	//Add a file to the staging area
+    $ git add -A                 //Add all new and changed files to the staging area
+
+  - commit
+    -> Record changes to the repository
+    $ git commit -m "[commit message]"    //Commit changes
+
+  - diff
+    -> Show changes between commits, commit and working tree, etc
+    $ git diff [source branch] [target branch]   //Preview changes before merging
+
+  - push
+    -> Update remote refs along with associated objects
+
+    "push"
+        $ git push origin [branch name]          //Push a branch to your remote repository
+        $ git push -u origin [branch name]       //Push changes to remote repository (and remember the branch)
+        $ git push                               //Push changes to remote repository (remembered branch)
+
+    "delete"
+        $ git push origin --delete [branch name] //Delete a remote branch
+
+  - pull
+    -> Fetch from and integrate with another repository or a local branch
+    $ git pull                           // Update local repository to the newest commit
+    $ git pull origin [branch name]      // Pull changes from remote repository
+
+    ## fetchと似ていますけど、PullはFetchしてから直接mergeする；
+       Fetchはダウンロードするだけ、mergeしない ##
+
+  - fetch
+    -> Download objects and refs from another repository
+    $ git fetch origin [branch name]
+
+  - merge
+    $ git merge [branch name]                     // Merge a branch into the active branch
+    $ git merge [source branch] [target branch]   // Merge a branch into a target branch
+
+---------------------------------------------------------------
+
+最終コミットと現状を比較し、差分を取ることができるようにする
+    $ git diff <コミットID1>
+    直前のコミットとの差分を見る
+    $ git diff HEAD~ HEAD　//「~」が一世代をさします、なので~~が二世代です
+
+
+.gitignoreを理解し、必要に応じて採用できるようにする
+
+    Gitの管理下に置きたくないファイルを指定できるもの($ git statusの時に一緒に出てこない)
+    1.新規.gitignoreファイルを作成
+        $ touch .gitignore
+    
+    #.gitignoreはUntrackedファイルにしか効果があるので、もしcommitしたことあたらstaged fileになるので、
+        $ git rm --cached [filename] 
+        $ git rm -r --cached [foldername]
+        $ git rm -r --cached
+        ファイルをUntrackedして、.gitignoreの内容を編集する
+
+    2.内容を編集する
+        $ vim .gitignore
+    3.置きたくないファイルを.gitignoreのテンプレートに記入する
+        example:
+            # ide
+            .idea/
+            *.iml
+
+            # tmp data
+            *.swp
+            *~
+            temporary/
+
+            # data
+            dataset/
+            output/
+    #削除
+        .gitignore を削除し、.gitignore中のファイルは Untracked files に戻る
+        $ rm .gitignore 
+
+    **force add .gitignore file to stage
+        $ git add -f <file>
+
+
+github の pull request (プルリクエスト) を理解する
+    1.開発者のローカルリポジトリでの変更を他の開発者に通知する
+    2.他の開発者が修正や機能追加を提案できる
+    3.許可されたらマージする
+
+"""github flow"" を理解する
+以降、GA Tryoutでは"""" を採用して運用する"
+    1. Create a branch
+    2. Add commits
+    3. Open a Pull Request
+    4. Discuss and review your code
+    5. Deploy, to check the bugs
+    6. Merge
+
+    Github flowは二種類のブランチしかなく、一つ目はmaster、他は全部自分で名前を付くbranch
+
+    Demo by myself
+
+    git clone [website.git]
+    git status                      //on branch main
+    git branch [branch new name]
+    git branch                       // *main , [brnach new name]
+    git checkout [branch new name]
+    git status                       //on branch [branch new name
+    git add [filename]               //add the file to the branch when it's new or modified
+    git status                       //check wheather it's added
+    git commit -m "[commit comment]"
+    git push origin [branch new name]
+
+    -->go to github website press the Compare & pull request button
+
+    ほかの開発者にPull requestのURLを共有し、修正などの確認
+    出来たら、マージする
